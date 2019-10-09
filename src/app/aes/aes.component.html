@@ -1,0 +1,88 @@
+<div class="progress" *ngIf="spinner == 'show'">
+  <mat-spinner>wait</mat-spinner>
+</div>
+<h3>Advanced Encryption Standard</h3>
+<p>The Advanced Encryption Standard (AES) is a specification for the encryption of electronic data established by the U.S.
+  National Institute of Standards and Technology (NIST). AES uses a fixed block size of 128 bits, and a key size of 128,
+  192, or 256 bits. Standard block cipher modes of operation such as Electronic Codebook (ECB) or Cipher Block Chaining (CBC)
+  are used to accommodate files.<br> Keys can be generated using password-based algorithm, or specified manually. When using
+  CBC a initialization vector must also be provided.
+</p>
+<p>
+  Complete the 3 steps below:<br> (1) select your file: either a plain file, or a previously encrypted file; (2) select the
+  desired parameters; and (3) start the encryption or decryption process.
+</p>
+<form (ngSubmit)="onSubmit()" #aesForm="ngForm">
+  <app-select [request]="request"></app-select>
+  <fieldset>
+    <legend>2. Select Algorithm Parameters</legend>
+    <div *ngIf="!gotKey()">
+      <div fxLayout="row" fxLayoutGap="10px">
+        <div fxLayout="column" fxFlex="50">
+          <div fxLayout="row" fxLayoutGap="5px">
+            <div fxLayout="column" fxFlex="15" fxLayoutGap="12px" fxLayoutAlign="center end">
+              <span>Key size:</span>
+              <span>Mode:</span>
+              <span>Key style:</span>
+            </div>
+            <div fxLayout="column" fxLayoutGap="5px" fxLayoutAlign="center start">
+              <mat-radio-group [(ngModel)]="request.keySizeString" name="aes.keySize">
+                <mat-radio-button value="128">128</mat-radio-button>&nbsp;
+                <mat-radio-button value="192">192</mat-radio-button>&nbsp;
+                <mat-radio-button value="256">256</mat-radio-button>
+              </mat-radio-group>
+              <mat-divider></mat-divider>
+              <mat-radio-group [(ngModel)]="request.mode" name="mode">
+                <mat-radio-button value="ECB">Electronic Codebook</mat-radio-button>&nbsp;
+                <mat-radio-button value="CBC">Cipher Block Chaining</mat-radio-button>
+              </mat-radio-group>
+              <mat-divider></mat-divider>
+              <mat-radio-group [(ngModel)]="request.keyStyle" name="keyStyle">
+                <mat-radio-button value="password">password</mat-radio-button>&nbsp;
+                <mat-radio-button value="hex">hex data</mat-radio-button>
+              </mat-radio-group>
+
+            </div>
+          </div>
+
+        </div>
+        <div fxLayout="column" fxFlex="50">
+          <div *ngIf="request.keyStyle=='password'" appearance="legacy">
+            <mat-form-field>
+              <input matInput type="password" [(ngModel)]="request.password" name="password" placeholder="Password" size="10" required/>
+              <mat-error>password is required</mat-error>
+            </mat-form-field>
+          </div>
+          <div fxLayout="column" fxFlex="80" *ngIf="request.keyStyle=='hex'">
+            <mat-form-field appearance="legacy">
+              <input matInput type="text" [(ngModel)]="request.keyData" name="keyData" placeholder="Key data in {{request.keySizeString/8}} hex digits "
+                size="{{request.keySizeString/4}}" required pattern="[a-fA-F0-9]{16}" />
+              <mat-error>iv data is required</mat-error>
+            </mat-form-field>
+            <mat-form-field *ngIf="request.mode=='CBC'" appearance="legacy">
+              <input matInput type="text" [(ngModel)]="request.ivData" name="ivData" placeholder="Initialization vector in 16 hex digits "
+                size="16" required />
+              <mat-error>iv data is required</mat-error>
+            </mat-form-field>
+          </div>
+          <p>
+            Or, you can preselect an existing AES key from the "Key Management" tab.
+            <span *ngIf="authService.selectedKey !== null">Current selection is: {{getKeyData()}}</span>
+          </p>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="gotKey()">
+      Selected Key: {{authService.userId + "-" + authService.selectedKey}}: {{getKeyData()}} &nbsp;&nbsp;&nbsp; <button mat-button-raised
+        (click)="resetKey()">Reset</button>
+    </div>
+  </fieldset>
+  <fieldset>
+    <legend>3. Start the Process</legend>
+    <button mat-button-raised type="submit" [disabled]="aesForm.invalid || !checkFile()">{{request.op}}</button>
+    &nbsp;{{message}}
+    <div *ngIf="aesForm.invalid" mat-warn>
+      some required fields are missing
+    </div>
+  </fieldset>
+</form>

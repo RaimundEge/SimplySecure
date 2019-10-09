@@ -1,0 +1,42 @@
+<h1 md-dialog-title>Welcome back to Simply Secure</h1>
+<div md-dialog-content>
+  <form [formGroup]="loginForm">
+    <fieldset>
+      <legend>to login, please enter:</legend>
+      <div class="form-group">
+        <mat-form-field>
+          <input matInput class="form-control" type="text" formControlName="userName" placeholder="your user name" size="20" />
+          <mat-hint *ngIf="loginForm.controls.userName.errors && loginForm.controls.userName.touched">
+            User name is required
+          </mat-hint>
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field>
+          <input matInput class="form-control" type="password" [formControl]="loginForm.controls['password']" placeholder="password"
+            size="20" />
+          <mat-hint *ngIf="loginForm.controls.password.errors && loginForm.controls.password.touched">
+            Password is required
+          </mat-hint>
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <span id="loginSpan">
+          <button matInput class="form-control" [disabled]="!loginForm.valid" (click)="submitForm()">Login</button>
+        </span>
+        {{message}}
+      </div>
+    </fieldset>
+    <fieldset>
+      <legend>or become a new member</legend>
+      It is easy and simple:
+      <button mat-button-raised mat-dialog-close routerLink="register">register</button>
+    </fieldset>
+  </form>
+</div>
+<div class="progress" *ngIf="mode == 'show'">
+  <mat-spinner>wait</mat-spinner>
+</div>
+<div mat-dialog-actions>
+  <button mat-button-raised (click)="dialogRef.close()">Close</button>
+</div>

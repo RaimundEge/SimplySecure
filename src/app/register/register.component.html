@@ -1,0 +1,76 @@
+<div class="main">
+  <h2>Membership Registration</h2>
+  <form [formGroup]="regForm" (ngSubmit)="submitForm()">
+      <fieldset fxLayout="column" fxLayoutAlign="start" fxLayoutGap="10px">
+          <legend>Please fill out this form:</legend>           
+          <div fxLayout="row" fxLayoutGap="2em">
+              <label fxFlex="10" fxFlexAlign="center">User name:</label>
+              <mat-form-field fxFlex="25">
+                  <input matInput type="text" formControlName="userName" placeholder="your desired user name *" (change)="checkId()" />
+                  <mat-hint>
+                      {{userError}}
+                  </mat-hint>
+              </mat-form-field>
+              <div fxFlexAlign="center">
+                  Must be at least 6 letters, and is case sensitive, no spaces
+              </div>
+          </div>
+          <div fxLayout="row">
+              <div fxFlex="5"></div>
+              <div fxLayout="column" fxFlex="55">
+                  <div fxLayout="row" fxLayoutGap="2em">
+                      <label fxFlex="20" fxFlexAlign="center">Password:</label>
+                      <mat-form-field fxFlex="60">
+                          <input matInput formControlName="pwd1" type="password" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" placeholder="password"
+                              (change)="updateConfirm()">
+                          <mat-hint *ngIf="regForm.controls.pwd1.errors && regForm.controls.pwd1.errors.required">
+                              * required
+                          </mat-hint>
+                          <mat-hint *ngIf="regForm.controls.pwd1.errors && regForm.controls.pwd1.errors.pattern">
+                              incorrect format
+                          </mat-hint>
+                      </mat-form-field>
+                  </div>
+                  <div fxLayout="row" fxLayoutGap="2em">
+                      <label fxFlex="20" fxFlexAlign="center">Confirm:</label>
+                      <mat-form-field fxFlex="60">
+                          <input matInput type="password" formControlName="pwd2" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" placeholder="confirm password"
+                              (change)="updateConfirm()">
+                          <mat-hint *ngIf="regForm.controls.pwd2.errors && regForm.controls.pwd2.errors.required">
+                              * required
+                          </mat-hint>
+                          <mat-hint *ngIf="regForm.controls.pwd2.errors && regForm.controls.pwd2.errors.pattern">
+                              passwords do not match
+                          </mat-hint>
+                      </mat-form-field>
+                  </div>
+              </div>
+              <div fxFlex="55" fxFlexAlign="center">
+                  Must be at least 6 characters with at least one upper and lower case letter and number
+              </div>
+          </div>
+          <div fxLayout="row" fxLayoutGap="2em">
+              <label fxFlexAlign="center" fxFlex="10">Email:</label>
+              <mat-form-field fxFlex="25">
+                  <input matInput type="email" formControlName="email" required placeholder="enter email address" (change)="updateEmail()">
+                  <mat-hint *ngIf="regForm.controls.email.errors && regForm.controls.email.errors.required">
+                      * required
+                  </mat-hint>
+                  <mat-hint *ngIf="regForm.controls.email.errors && regForm.controls.email.errors.format">
+                      invalid email format
+                  </mat-hint>
+              </mat-form-field>
+              <div fxFlexAlign="center">
+                  Will be used to send verification email
+              </div>
+          </div>
+          <div fxLayout="row" fxLayoutGap="2em">
+              <input type="submit" value="Register" [disabled]="!regForm.valid" />
+              <div class="alert">{{message}}</div>
+          </div>
+      </fieldset>
+  </form>
+  <div class="progress" *ngIf="mode == 'show'">
+      <mat-spinner>wait</mat-spinner>
+  </div>
+</div>
