@@ -43,7 +43,7 @@ export class AesComponent implements OnInit {
 
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Accept': 'application/json' }) };
     this.spinner = "show";
-    this.http.post(SecureURL + '/rest/process', this.request, httpOptions).subscribe(
+    this.http.post(SecureURL + '/process', this.request, httpOptions).subscribe(
       (data: any) => {
         console.log('process returned:');
         console.log(data);

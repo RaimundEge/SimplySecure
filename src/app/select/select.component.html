@@ -1,22 +1,24 @@
 <fieldset>
-    <legend>1. Select File to Encrypt or Decrypt</legend>
-    <mat-radio-group [(ngModel)]="request.op" name={{request.algorithm+request.op}}>
-      <mat-radio-button value="encrypt">encrypt</mat-radio-button>&nbsp;
-      <mat-radio-button value="decrypt">decrypt</mat-radio-button>
-    </mat-radio-group>
-    &nbsp;
-    <mat-form-field appearance="standard">
-      <mat-select [(ngModel)]="request.fileName" name="fileName" placeholder="select file" required>
-        <mat-option>upload
-          <input type="file" (change)="setFile($event)">
+  <legend>1. Select File to Encrypt or Decrypt</legend>
+  <mat-radio-group [(ngModel)]="request.op" name={{request.algorithm+request.op}}>
+    <mat-radio-button value="encrypt">encrypt</mat-radio-button>&nbsp;
+    <mat-radio-button value="decrypt">decrypt</mat-radio-button>
+  </mat-radio-group>
+  &nbsp;
+  <mat-form-field appearance="standard">
+    <mat-select [(ngModel)]="request.fileName" name="fileName" placeholder="select file" required>
+      <mat-option>
+        <!-- <input type="file" (change)="setFile($event)"> -->
+        <button type="button" (click)="fileInput.click()">Choose File</button>
+        <input hidden (change)="setFile($event)" #fileInput type="file" id="file">
+      </mat-option>
+      <mat-optgroup label="Existing Files">
+        <mat-option *ngFor="let file of authService.files" [value]="file.name">
+          {{file.name}}
         </mat-option>
-        <mat-optgroup label="Existing Files">
-          <mat-option *ngFor="let file of authService.files" [value]="file.name">
-            {{file.name}}
-          </mat-option>
-        </mat-optgroup>       
-      </mat-select>
-      <mat-error>you must select a file</mat-error>
-    </mat-form-field>
-    {{request.fileName}} &nbsp; {{message}}
-  </fieldset>
+      </mat-optgroup>
+    </mat-select>
+    <mat-error>you must select a file</mat-error>
+  </mat-form-field>
+  {{request.fileName}} &nbsp; {{message}}
+</fieldset>

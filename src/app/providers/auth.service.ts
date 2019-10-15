@@ -39,24 +39,24 @@ export class AuthService {
 
   refreshFiles() {
     // console.log("AuthService refreshFiles, member: " + this.userId);
-    this.http.get(SecureURL + '/rest/list/' + this.userId, { responseType: 'json' }).subscribe(
+    this.http.get(SecureURL + '/list/' + this.userId, { responseType: 'json' }).subscribe(
       (data: any) => { 
         // console.log("AuthService refreshFiles, files length before: " + this.files.length);
         this.files = data;
         // console.log("AuthService refreshFiles, files length after: " + this.files.length);
-        // console.log(this.files);
+        console.log(this.files);
       });
   }
 
   refreshKeys() {
     // console.log("AuthService refreshKeys, member: " + this.userId);
-    this.http.get(SecureURL + '/rest/keys/' + this.userId, { responseType: 'json' }).subscribe(
+    this.http.get(SecureURL + '/keys/' + this.userId, { responseType: 'json' }).subscribe(
       (data: any) => { 
-        // console.log("AuthService refreshKeys, keys length before: " + this.keys.length);
+        console.log("AuthService refreshKeys: " + JSON.stringify(data));
         this.keys.length = 0;
         data.forEach(element => { this.keys.push(element) });
         // console.log("AuthService refreshKeys, keys length after: " + this.keys.length);
-        // console.log(this.keys);
+        console.log(this.keys);
       });
   }
 

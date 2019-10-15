@@ -41,12 +41,12 @@ export class RegisterComponent {
       this.userError = 'User name contains spaces';
       return;
     }
-    let url = SecureURL + '/rest/member/' + value;
-    // console.log(url);
+    let url = SecureURL + '/member/' + value;
+    console.log(url);
     // send activation request to REST server
     this.http.get(url, {responseType: 'json'}).subscribe(
       (data: any) => {
-        // console.log('checking for member returned: ' + data.status);
+        console.log('checking for member returned: ' + data.status);
         if (data.status === 'User OK') {
           field.setErrors({ 'bad': true });
           this.userError = 'User name already in use';
@@ -86,7 +86,7 @@ export class RegisterComponent {
     let body = { "userName": controls.userName.value, "password": controls.pwd1.value, "email": controls.email.value, "addr": mailReturn };
     console.log(body);
     this.mode = "show";
-    this.http.post(SecureURL + '/rest/register', body, httpOptions).subscribe(
+    this.http.post(SecureURL + '/register', body, httpOptions).subscribe(
       (data: any) => {
         // console.log('register returned:');
         // console.log(res);

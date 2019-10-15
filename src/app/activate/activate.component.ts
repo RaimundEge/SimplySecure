@@ -24,7 +24,7 @@ export class ActivateComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.route.queryParamMap.subscribe(pMap => {
+    this.route.paramMap.subscribe(pMap => {
       this.code = pMap.get("code");
       console.log('ngOnInit: got this code: ' + this.code);
       if (this.code !== null) {
@@ -41,7 +41,7 @@ export class ActivateComponent implements OnInit {
     code = code.trim();
     if (code !== '') {
       // send activation request to REST server
-      this.http.get(SecureURL + '/rest/login?code=' + code).subscribe(
+      this.http.get(SecureURL + '/login?code=' + code).subscribe(
         (data: any) => {
           console.log('activate returned:' + JSON.stringify(data));
           if (data.status === 'User OK') {

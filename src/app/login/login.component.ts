@@ -36,7 +36,7 @@ export class LoginComponent {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Accept': 'application/json' }) };
     var body = { "userName": this.loginForm.controls.userName.value, "password": this.loginForm.controls.password.value };
 
-    this.http.post(SecureURL + '/rest/login', body, httpOptions).subscribe(
+    this.http.post(SecureURL + '/login', body, httpOptions).subscribe(
       (data: any) => {
         // turn off progress spinner
         this.mode = "no";

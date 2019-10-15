@@ -20,13 +20,13 @@ export class FilesComponent implements OnInit {
   getDownloadLink(file) {
     //  console.log("getDownloadLink: " + JSON.stringify(file));
     var fileName = encodeURIComponent(file.name);
-    return SecureURL + "/rest/download/" + file.dir + "/" + this.authService.userId + "/" + fileName;
+    return SecureURL + "/download/" + file.dir + "/" + this.authService.userId + "/" + fileName;
   }
 
   deleteFile(file) {
     console.log("deleteFile: " + JSON.stringify(file));
     var fileName = encodeURIComponent(file.name);
-    this.http.get(SecureURL + "/rest/delete/" + "/" + file.dir + "/" + this.authService.userId + "/" + fileName).subscribe(
+    this.http.get(SecureURL + "/delete/" + file.dir + "/" + this.authService.userId + "/" + fileName).subscribe(
       data => { 
         console.log("delete returned: " + JSON.stringify(data));
         this.authService.refreshFiles();

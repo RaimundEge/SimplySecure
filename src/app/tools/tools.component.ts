@@ -62,7 +62,7 @@ export class ToolsComponent implements OnInit, OnDestroy {
     const httpOptions = { headers: new HttpHeaders({ 'Accept': 'application/json' })};
     // show progress spinner
     this.mode = "show";
-    this.http.post(SecureURL + '/rest/crypt', formData, httpOptions)
+    this.http.post(SecureURL + '/crypt', formData, httpOptions)
       .subscribe((data: any) => {
         // turn off progress spinner
         this.mode = "no";

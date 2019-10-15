@@ -34,7 +34,7 @@ export class SelectComponent implements OnInit {
       const httpOptions = { headers: new HttpHeaders({ 'Accept': 'application/json' }) };
       // show progress
       this.message = "uploading ...";
-      this.http.post(SecureURL + '/rest/upload', formData, httpOptions)
+      this.http.post(SecureURL + '/upload', formData, httpOptions)
         .subscribe((data: any) => {
           // turn off progress spinner
           this.message = data.status;
