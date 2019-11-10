@@ -3,6 +3,8 @@ import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { AuthService } from './providers/auth.service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { RestURL } from './app.config';
 
 @Component({
   selector: 'app-root',
@@ -19,14 +21,20 @@ export class AppComponent {
   server = "secure.ege.com";
   author = "Ege Consulting Inc.";
 
-  getWidth() {    
+  getWidth() {
     var top = document.getElementById('top-banner');
     // console.log("getWidth: " + top.clientWidth);
     return top.clientWidth + "px";
   }
 
-  constructor(public dialog: MatDialog, public authService: AuthService, public router: Router) {
-
+  constructor(public dialog: MatDialog, public authService: AuthService, public router: Router, public http: HttpClient) {
+    console.log('AppComponent constructor')
+    // send activation request to REST server
+    this.http.get(RestURL).subscribe(
+      (data: any) => {
+        console.log('checking for member returned: ' + JSON.stringify(data));
+      }
+    )
   }
 
   openDialog() {
