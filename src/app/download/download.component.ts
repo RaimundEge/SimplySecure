@@ -11,7 +11,7 @@ export class DownloadComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<DownloadComponent>, @Inject(MAT_DIALOG_DATA) public data: any) {
     var fileName = encodeURIComponent(data.name);
-    this.data['URL'] = SecureURL + '/download/DownFiles/' + this.data.member + '/' + fileName;
+    this.data['URL'] = SecureURL + '/download/' + this.data.member + '/' + fileName;
     console.log('DownloadComponent data:', this.data);
   }
 
