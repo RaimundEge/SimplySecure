@@ -1,0 +1,36 @@
+<fieldset class="mat-elevation-z8">
+    <legend>We store the following keys for you (you can select a key to be used in Algorithm Setup):</legend>
+    <table class="mat-elevation-z8">
+      <tr>
+        <th>&nbsp;</th>
+        <th style="text-align:left">Key Id</th>
+        <th style="text-align:left">Algorithm</th>
+        <th style="text-align:left">Used for</th>
+        <th style="text-align:left">Last use</th>
+        <th>&nbsp;</th>
+      </tr>
+      <mat-list-item *ngIf="authService.keys.length == 0">
+        <tr>
+          <td>nothing available</td>
+        </tr>
+      </mat-list-item>
+      <tr *ngFor="let key of authService.keys;">
+        <td>
+          <mat-radio-group [(ngModel)]="authService.selectedKey" name="selectedKey">
+            <mat-radio-button value="{{key.id}}"></mat-radio-button>
+          </mat-radio-group>
+        </td>
+        <td>{{authService.userId + "-" + key.id}}</td>
+        <td>{{key.algorithm + "/" + key.keySize + "/" + key.mode}}</td>
+        <td>{{key.files.length}} files</td>
+        <td>{{getTS(key)}} </td>
+        <td><button mat-icon-button (click)="showInfo(key)">
+            <mat-icon>info</mat-icon>
+          </button></td>
+      </tr>
+      <tr>
+        <td colspan="2"><button mat-button-raised (click)="resetKey()">Reset</button></td>
+        <td colspan="2">{{getSelectedKey()}}</td>
+      </tr>
+    </table>
+  </fieldset>

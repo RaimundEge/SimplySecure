@@ -1,0 +1,68 @@
+<div class="main">
+    <div class="progress" *ngIf="mode == 'show'">
+        <mat-spinner>wait</mat-spinner>
+    </div>
+    <div fxLayout="column" fxLayoutGap="10px">
+        <h2>Welcome to the Simple File Encryption Service</h2>
+        <p>
+            Here you can encrypt and decrypt any file using strong AES encryption.<br> Choose either to upload a new file
+            to encrypt or an encrypted file to decrypt.
+        </p>
+        <form [formGroup]="toolForm">
+            <fieldset fxLayout="column" fxLayoutAlign="start" fxLayoutGap="10px">
+                <legend>Select File to Encrypt or Decrypt</legend>
+                <div fxLayout="row">
+                    <label>File:</label>&nbsp;
+                    <input formControlName="fileField" type="file" (change)="setFile($event)">
+                    <span *ngIf="!file">
+                    File is required
+                </span>
+                </div>
+                <div fxLayout="row">
+                    <div fxLayout="column" fxFlex="40">
+                        <mat-form-field>
+                            <input matInput formControlName="pwd1" type="password" placeholder="Password" size=20 
+                                required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}"
+                                (change)="updateConfirm()">
+                            <mat-hint *ngIf="!toolForm.controls.pwd1.touched">* required</mat-hint>
+                            <mat-hint *ngIf="toolForm.controls.pwd1.errors && toolForm.controls.pwd1.touched">
+                                Password is required
+                            </mat-hint>
+                        </mat-form-field>
+                        <mat-form-field>
+                            <input matInput formControlName="pwd2" type="password" placeholder="Confirm password" size=20 
+                                required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}"
+                                 (change)="updateConfirm()">
+                            <mat-hint *ngIf="!toolForm.controls.pwd2.touched">* required</mat-hint>
+                            <mat-hint *ngIf="toolForm.controls.pwd2.errors && toolForm.controls.pwd2.touched">
+                                Password confirmation is required
+                            </mat-hint>
+                        </mat-form-field>
+                    </div>
+                    <div fxFlex="50" fxFlexAlign="center" fxFlexOffset="20px">
+                        The enrcyryption key is generated from a password that you choose.<br>
+                        Password must be at least 6 characters:<br>
+                        at least one upper and lower case letter and number.<br>
+                        You will need this password to decrypt your encrypted file.
+                    </div>
+                </div>              
+                    
+                <div fxLayout="row" id="captchablock">
+                    <div fxFlex="90" fxLayoutAlign="end" fxFlexOffset="20px">
+                        <div id="cap_field" class="g-recaptcha" data-sitekey="6LfvWRITAAAAAEmFGWlzR7KlscELebFIr5p2uEoZ"></div>
+                    </div>
+                </div>
+                
+                <div fxLayout="row" fxLayoutGap="20px">
+                    <button matButtonRaised (click)="basicCrypt('Encrypt')" [disabled]="!toolForm.valid || !file">Encrypt</button>
+                    <span>or</span>
+                    <button matButtonRaise (click)="basicCrypt('Decrypt')" [disabled]="!toolForm.valid || !file">Decrypt</button>
+                    <span>{{message}}</span>
+                </div>
+            </fieldset>
+        </form>
+        <p>
+            More encryption options are available to members !
+        </p>
+    </div>
+  </div>

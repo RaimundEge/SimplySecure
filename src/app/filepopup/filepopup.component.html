@@ -1,0 +1,13 @@
+<mat-dialog-content>
+    <fieldset class="mat-elevation-z8">
+        <legend>The key was used with the following files:</legend>
+        <mat-nav-list>
+            <mat-list-item *ngFor="let file of data">
+                <div matLine>{{ getFileName(file) }} ({{ getFileTS(file) }})</div>
+            </mat-list-item>
+        </mat-nav-list>
+    </fieldset>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button matButtonRaised mat-dialog-close>Close</button>
+</mat-dialog-actions>
