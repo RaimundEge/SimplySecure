@@ -7,6 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatSelectModule } from '@angular/material/select';
+import { MatStepperModule } from '@angular/material/stepper';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -27,6 +28,7 @@ import { FilesComponent } from './files/files.component';
 import { AesComponent } from './aes/aes.component';
 import { DesComponent } from './des/des.component';
 import { SelectComponent } from './select/select.component';
+import { Rc4Component } from './rc4/rc4.component';
 
 @NgModule({
   declarations: [
@@ -46,14 +48,15 @@ import { SelectComponent } from './select/select.component';
     FilesComponent,
     AesComponent,
     DesComponent,
-    SelectComponent
+    SelectComponent,
+    Rc4Component
   ],
   imports: [
     BrowserModule, HttpClientModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MatButtonModule, MatListModule, MatTableModule, MatPaginatorModule, MatCheckboxModule, MatMenuModule, MatIconModule, MatToolbarModule, MatInputModule, MatDialogModule, MatProgressSpinnerModule, MatRadioModule,
-    FormsModule, ReactiveFormsModule, MatGridListModule, MatTabsModule, MatSelectModule
+    FormsModule, ReactiveFormsModule, MatGridListModule, MatTabsModule, MatSelectModule, MatStepperModule 
   ],
   providers: [AuthService],
   entryComponents: [ LoginComponent, DownloadComponent, FilepopupComponent ],

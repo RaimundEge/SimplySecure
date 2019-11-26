@@ -1,0 +1,136 @@
+<div class="progress" *ngIf="spinner == 'show'">
+    <mat-spinner>wait</mat-spinner>
+</div>
+<h3>Rivest Cipher 4</h3>
+<p>
+    RC4 was designed by Ron Rivest of RSA Security in 1987.
+    RC4 was initially a trade secret, but in September 1994 a description of it was anonymously posted on the Internet.
+    The leaked code was confirmed to be genuine as its output was found to match that of proprietary software using
+    licensed RC4. Because the algorithm is known, it is no longer a trade secret.
+    RC4 became part of some commonly used encryption protocols and standards, such as WEP and WPA for wireless cards;
+    and SSL and its successor TLS in 1999, until it was prohibited for all versions of TLS
+    due to the RC4 attacks weakening or breaking RC4 used in SSL/TLS.
+    The main factors in RC4's success over such a wide range of applications have been its
+    speed and simplicity: efficient implementations in both software and hardware were very easy to develop.
+</p>
+To use RC4 to encrypt or decrypt a file, complete the steps below:
+<form (ngSubmit)="onSubmit()" #rc4Form="ngForm">
+
+    <mat-horizontal-stepper #stepper>
+        <mat-step>
+            <form>
+                <ng-template matStepLabel>Select operation: {{request.op}} </ng-template>
+                <mat-radio-group [(ngModel)]="request.op" name={{request.algorithm+request.op}}>
+                    <mat-radio-button value="encrypt">encrypt</mat-radio-button>&nbsp;
+                    <mat-radio-button value="decrypt">decrypt</mat-radio-button>
+                </mat-radio-group>
+                &nbsp;
+                <button mat-mini-fab matStepperNext>Next</button>
+            </form>
+        </mat-step>
+        <mat-step>
+            <form>
+                <ng-template matStepLabel>Select file for operation: {{request.fileName}}</ng-template>
+                &nbsp;<button mat-mini-fab matStepperPrevious>Back</button>&nbsp;&nbsp;&nbsp;
+                <mat-form-field appearance="standard">
+                    <mat-select [(ngModel)]="request.fileName" name="fileName" placeholder="select file to {{request.op}}" required>
+                        <mat-option>
+                            <!-- <input type="file" (change)="setFile($event)"> -->
+                            <button type="button" (click)="fileInput.click()">Choose File</button>
+                            <input hidden (change)="setFile($event)" #fileInput type="file" id="file">
+                        </mat-option>
+                        <mat-optgroup label="Existing Files">
+                            <mat-option *ngFor="let file of authService.files" [value]="file.name">
+                                {{file.name}}
+                            </mat-option>
+                        </mat-optgroup>
+                    </mat-select>
+                    <mat-error>you must select a file</mat-error>
+                </mat-form-field>
+                {{request.fileName}} &nbsp; {{filemsg}}    
+                &nbsp;&nbsp;&nbsp;<button mat-mini-fab matStepperNext>Next</button>
+            </form>
+        </mat-step>
+        <mat-step>
+            <form>
+                <ng-template matStepLabel>Prepare key:</ng-template>
+                <div *ngIf="!gotKey()">
+                    <fieldset>
+                        <mat-horizontal-stepper>
+                            <mat-step>
+                                <ng-template matStepLabel>Key size:</ng-template>
+                                <mat-radio-group [(ngModel)]="request.keySizeString" name="rc4.keySize">
+                                    <mat-radio-button value="64">56</mat-radio-button>&nbsp;
+                                    <mat-radio-button value="192">168</mat-radio-button>&nbsp;
+                                </mat-radio-group>
+                            </mat-step>
+                            <mat-step>
+                                <ng-template matStepLabel>Key mode:</ng-template>
+                                <mat-radio-group [(ngModel)]="request.mode" name="des.mode">
+                                    <mat-radio-button value="ECB">Electronic Codebook</mat-radio-button>&nbsp;
+                                    <mat-radio-button value="CBC">Cipher Block Chaining</mat-radio-button>
+                                </mat-radio-group>
+                            </mat-step>
+                            <mat-step>
+                                <ng-template matStepLabel>Key style:</ng-template>
+                                <mat-radio-group [(ngModel)]="request.keyStyle" name="des.keyStyle">
+                                    <mat-radio-button value="password">password</mat-radio-button>&nbsp;
+                                    <mat-radio-button value="hex">hex data</mat-radio-button>
+                                </mat-radio-group>
+                            </mat-step>
+                        </mat-horizontal-stepper>
+                        <fieldset>
+                            <legend>Key data:</legend>
+                            <div *ngIf="request.keyStyle=='password'" appearance="legacy">
+                                <mat-form-field>
+                                    <input matInput type="password" [(ngModel)]="request.password" name="password"
+                                        placeholder="Password" size="10" required />
+                                    <mat-error>password is required</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div fxLayout="column" fxFlex="80" *ngIf="request.keyStyle=='hex'">
+                                <mat-form-field appearance="legacy">
+                                    <input matInput type="text" [(ngModel)]="request.keyData" name="keyData"
+                                        placeholder="Key data in {{keySize/8}} hex digits " size="{{keySize/4}}"
+                                        required pattern="[a-fA-F0-9]{16}" />
+                                    <mat-error>iv data is required</mat-error>
+                                </mat-form-field>
+                                <mat-form-field *ngIf="request.mode=='CBC'" appearance="legacy">
+                                    <input matInput type="text" [(ngModel)]="request.ivData" name="ivData"
+                                        placeholder="Initialization vector in 8 hex digits " size="16" required />
+                                    <mat-error>iv data is required</mat-error>
+                                </mat-form-field>
+                            </div>
+                        </fieldset>
+                        <p>
+                            Or, you can preselect an existing key from the "Key Management" tab.
+                            <span *ngIf="authService.selectedKey !== null">Current selection is: {{getKeyData()}}</span>
+                        </p>
+                    </fieldset>
+                </div>
+                <div *ngIf="gotKey()">
+                    Selected Key: {{authService.userId + "-" + authService.selectedKey}}: {{getKeyData()}}
+                    &nbsp;&nbsp;&nbsp; <button mat-button-raised (click)="resetKey()">Reset</button>
+                </div>
+                <div>
+                    <button mat-mini-fab matStepperPrevious>Back</button>
+                    <button mat-mini-fab matStepperNext>Next</button>
+                </div>
+            </form>
+        </mat-step>
+        <mat-step>
+            <form>
+                <ng-template matStepLabel>Start the process:</ng-template>
+                <button mat-button-raised type="submit"
+                    [disabled]="rc4Form.invalid || !checkFile()">{{request.op}}</button>
+                &nbsp;{{message}}
+                <div *ngIf="rc4Form.invalid" mat-warn>
+                    some required fields are missing
+                </div>
+                <div>
+                    <button mat-button matStepperPrevious>Back</button>
+                </div>
+            </form>
+        </mat-step>
+    </mat-horizontal-stepper>
+</form>
