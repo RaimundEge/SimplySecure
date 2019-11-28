@@ -55,30 +55,30 @@ To use RC4 to encrypt or decrypt a file, complete the steps below:
             <form>
                 <ng-template matStepLabel>Prepare key:</ng-template>
                 <div *ngIf="!gotKey()">
-                    <fieldset>
-                        <mat-horizontal-stepper>
-                            <mat-step>
-                                <ng-template matStepLabel>Key size:</ng-template>
+                    <div class="keydata">
+                        <mat-grid-list cols="3" rowHeight="100px">
+                            <mat-grid-tile>
+                                Key size:
                                 <mat-radio-group [(ngModel)]="request.keySizeString" name="rc4.keySize">
                                     <mat-radio-button value="64">56</mat-radio-button>&nbsp;
                                     <mat-radio-button value="192">168</mat-radio-button>&nbsp;
                                 </mat-radio-group>
-                            </mat-step>
-                            <mat-step>
-                                <ng-template matStepLabel>Key mode:</ng-template>
+                            </mat-grid-tile>
+                            <mat-grid-tile>
+                                Key mode:
                                 <mat-radio-group [(ngModel)]="request.mode" name="des.mode">
                                     <mat-radio-button value="ECB">Electronic Codebook</mat-radio-button>&nbsp;
                                     <mat-radio-button value="CBC">Cipher Block Chaining</mat-radio-button>
                                 </mat-radio-group>
-                            </mat-step>
-                            <mat-step>
-                                <ng-template matStepLabel>Key style:</ng-template>
+                            </mat-grid-tile>
+                            <mat-grid-tile>
+                                Key style:
                                 <mat-radio-group [(ngModel)]="request.keyStyle" name="des.keyStyle">
                                     <mat-radio-button value="password">password</mat-radio-button>&nbsp;
                                     <mat-radio-button value="hex">hex data</mat-radio-button>
                                 </mat-radio-group>
-                            </mat-step>
-                        </mat-horizontal-stepper>
+                            </mat-grid-tile>
+                        </mat-grid-list>
                         <fieldset>
                             <legend>Key data:</legend>
                             <div *ngIf="request.keyStyle=='password'" appearance="legacy">
@@ -106,7 +106,7 @@ To use RC4 to encrypt or decrypt a file, complete the steps below:
                             Or, you can preselect an existing key from the "Key Management" tab.
                             <span *ngIf="authService.selectedKey !== null">Current selection is: {{getKeyData()}}</span>
                         </p>
-                    </fieldset>
+                    </div>
                 </div>
                 <div *ngIf="gotKey()">
                     Selected Key: {{authService.userId + "-" + authService.selectedKey}}: {{getKeyData()}}

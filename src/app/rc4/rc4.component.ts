@@ -28,7 +28,7 @@ export class Rc4Component implements OnInit {
     this.request.algorithm = "RC4";
     this.request.userId = this.authService.userId;
     this.request.op = "encrypt";
-    this.request.keySizeString = "128";
+    this.request.keySizeString = "64";
     this.request.ivSize = 128; // DES block size
     this.request.mode = "ECB";
     this.request.keyStyle = "password"; 
