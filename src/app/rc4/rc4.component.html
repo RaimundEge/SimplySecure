@@ -14,7 +14,7 @@
     speed and simplicity: efficient implementations in both software and hardware were very easy to develop.
 </p>
 To use RC4 to encrypt or decrypt a file, complete the steps below:
-<form (ngSubmit)="onSubmit()" #rc4Form="ngForm">
+<form (ngSubmit)="onSubmit()" #rcForm="ngForm">
 
     <mat-horizontal-stepper #stepper>
         <mat-step>
@@ -25,15 +25,20 @@ To use RC4 to encrypt or decrypt a file, complete the steps below:
                     <mat-radio-button value="decrypt">decrypt</mat-radio-button>
                 </mat-radio-group>
                 &nbsp;
-                <button mat-mini-fab matStepperNext>Next</button>
+                <button mat-mini-fab matStepperNext>
+                    <mat-icon>arrow_forward</mat-icon>
+                </button>
             </form>
         </mat-step>
         <mat-step>
             <form>
                 <ng-template matStepLabel>Select file for operation: {{request.fileName}}</ng-template>
-                &nbsp;<button mat-mini-fab matStepperPrevious>Back</button>&nbsp;&nbsp;&nbsp;
+                &nbsp;<button mat-mini-fab matStepperPrevious>
+                    <mat-icon>arrow_back</mat-icon>
+                </button>&nbsp;&nbsp;&nbsp;
                 <mat-form-field appearance="standard">
-                    <mat-select [(ngModel)]="request.fileName" name="fileName" placeholder="select file to {{request.op}}" required>
+                    <mat-select [(ngModel)]="request.fileName" name="fileName"
+                        placeholder="select file to {{request.op}}" required>
                         <mat-option>
                             <!-- <input type="file" (change)="setFile($event)"> -->
                             <button type="button" (click)="fileInput.click()">Choose File</button>
@@ -47,36 +52,51 @@ To use RC4 to encrypt or decrypt a file, complete the steps below:
                     </mat-select>
                     <mat-error>you must select a file</mat-error>
                 </mat-form-field>
-                {{request.fileName}} &nbsp; {{filemsg}}    
-                &nbsp;&nbsp;&nbsp;<button mat-mini-fab matStepperNext>Next</button>
+                {{request.fileName}} &nbsp; {{filemsg}}
+                &nbsp;&nbsp;&nbsp;<button mat-mini-fab matStepperNext>
+                    <mat-icon>arrow_forward</mat-icon>
+                </button>
             </form>
         </mat-step>
         <mat-step>
             <form>
-                <ng-template matStepLabel>Prepare key:</ng-template>
+                <ng-template matStepLabel>
+                    <div>
+                        Prepare key:
+
+                    </div>
+                </ng-template>
                 <div *ngIf="!gotKey()">
+                    (Or, you can preselect an existing key from the "Key Management" tab)
                     <div class="keydata">
                         <mat-grid-list cols="3" rowHeight="100px">
                             <mat-grid-tile>
-                                Key size:
-                                <mat-radio-group [(ngModel)]="request.keySizeString" name="rc4.keySize">
-                                    <mat-radio-button value="64">56</mat-radio-button>&nbsp;
-                                    <mat-radio-button value="192">168</mat-radio-button>&nbsp;
-                                </mat-radio-group>
+                                <mat-grid-tile-header>Key size:</mat-grid-tile-header>
+                                <mat-grid-tile-footer>
+                                    <mat-radio-group [(ngModel)]="request.keySizeString" name="rc4.keySize">
+                                        <mat-radio-button value="64">56</mat-radio-button>&nbsp;
+                                        <mat-radio-button value="192">168</mat-radio-button>&nbsp;
+                                    </mat-radio-group>
+                                </mat-grid-tile-footer>
+                            </mat-grid-tile>
+                            <mat-divider [vertical]="true"></mat-divider>
+                            <mat-grid-tile>
+                                <mat-grid-tile-header>Key mode:</mat-grid-tile-header>
+                                <mat-grid-tile-footer>
+                                    <mat-radio-group [(ngModel)]="request.mode" name="des.mode">
+                                        <mat-radio-button value="ECB">Electronic Codebook</mat-radio-button>&nbsp;
+                                        <mat-radio-button value="CBC">Cipher Block Chaining</mat-radio-button>
+                                    </mat-radio-group>
+                                </mat-grid-tile-footer>
                             </mat-grid-tile>
                             <mat-grid-tile>
-                                Key mode:
-                                <mat-radio-group [(ngModel)]="request.mode" name="des.mode">
-                                    <mat-radio-button value="ECB">Electronic Codebook</mat-radio-button>&nbsp;
-                                    <mat-radio-button value="CBC">Cipher Block Chaining</mat-radio-button>
-                                </mat-radio-group>
-                            </mat-grid-tile>
-                            <mat-grid-tile>
-                                Key style:
-                                <mat-radio-group [(ngModel)]="request.keyStyle" name="des.keyStyle">
-                                    <mat-radio-button value="password">password</mat-radio-button>&nbsp;
-                                    <mat-radio-button value="hex">hex data</mat-radio-button>
-                                </mat-radio-group>
+                                <mat-grid-tile-header>Key style:</mat-grid-tile-header>
+                                <mat-grid-tile-footer>
+                                    <mat-radio-group [(ngModel)]="request.keyStyle" name="des.keyStyle">
+                                        <mat-radio-button value="password">password</mat-radio-button>&nbsp;
+                                        <mat-radio-button value="hex">hex data</mat-radio-button>
+                                    </mat-radio-group>
+                                </mat-grid-tile-footer>
                             </mat-grid-tile>
                         </mat-grid-list>
                         <fieldset>
@@ -88,22 +108,24 @@ To use RC4 to encrypt or decrypt a file, complete the steps below:
                                     <mat-error>password is required</mat-error>
                                 </mat-form-field>
                             </div>
-                            <div fxLayout="column" fxFlex="80" *ngIf="request.keyStyle=='hex'">
-                                <mat-form-field appearance="legacy">
-                                    <input matInput type="text" [(ngModel)]="request.keyData" name="keyData"
-                                        placeholder="Key data in {{keySize/8}} hex digits " size="{{keySize/4}}"
-                                        required pattern="[a-fA-F0-9]{16}" />
-                                    <mat-error>iv data is required</mat-error>
-                                </mat-form-field>
-                                <mat-form-field *ngIf="request.mode=='CBC'" appearance="legacy">
-                                    <input matInput type="text" [(ngModel)]="request.ivData" name="ivData"
-                                        placeholder="Initialization vector in 8 hex digits " size="16" required />
-                                    <mat-error>iv data is required</mat-error>
-                                </mat-form-field>
+                            <div *ngIf="request.keyStyle=='hex'">
+                                <span>
+                                    <mat-form-field appearance="legacy">
+                                        <input matInput type="text" [(ngModel)]="request.keyData" name="keyData"
+                                            placeholder="Key data in {{request.keySizeString/8}} hex digits "
+                                            size="{{request.keySizeString/4}}" required pattern="[a-fA-F0-9]{16}" />
+                                        <mat-error>iv data is required</mat-error>
+                                    </mat-form-field>
+                                    &nbsp;&nbsp;
+                                    <mat-form-field *ngIf="request.mode=='CBC'" appearance="legacy">
+                                        <input matInput type="text" [(ngModel)]="request.ivData" name="ivData"
+                                            placeholder="Initialization vector in 8 hex digits " size="16" required />
+                                        <mat-error>iv data is required</mat-error>
+                                    </mat-form-field>
+                                </span>
                             </div>
                         </fieldset>
                         <p>
-                            Or, you can preselect an existing key from the "Key Management" tab.
                             <span *ngIf="authService.selectedKey !== null">Current selection is: {{getKeyData()}}</span>
                         </p>
                     </div>
@@ -112,23 +134,17 @@ To use RC4 to encrypt or decrypt a file, complete the steps below:
                     Selected Key: {{authService.userId + "-" + authService.selectedKey}}: {{getKeyData()}}
                     &nbsp;&nbsp;&nbsp; <button mat-button-raised (click)="resetKey()">Reset</button>
                 </div>
-                <div>
-                    <button mat-mini-fab matStepperPrevious>Back</button>
-                    <button mat-mini-fab matStepperNext>Next</button>
+                <div *ngIf="!rcForm.invalid && checkFile()">
+                    <span>
+                        Let's go &nbsp;
+                        <button mat-button-raised [disabled]="rcForm.invalid || !checkFile()" type="submit">
+                            <mat-icon>check</mat-icon> {{request.op}}
+                        </button>
+                    </span>
+                    &nbsp;{{message}}
                 </div>
-            </form>
-        </mat-step>
-        <mat-step>
-            <form>
-                <ng-template matStepLabel>Start the process:</ng-template>
-                <button mat-button-raised type="submit"
-                    [disabled]="rc4Form.invalid || !checkFile()">{{request.op}}</button>
-                &nbsp;{{message}}
-                <div *ngIf="rc4Form.invalid" mat-warn>
+                <div *ngIf="rcForm.invalid" mat-warn>
                     some required fields are missing
-                </div>
-                <div>
-                    <button mat-button matStepperPrevious>Back</button>
                 </div>
             </form>
         </mat-step>

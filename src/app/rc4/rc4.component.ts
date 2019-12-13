@@ -14,7 +14,6 @@ import { DownloadComponent } from '../download/download.component';
 export class Rc4Component implements OnInit {
 
   request: Request;
-  // aesForm: FormGroup;
   spinner = "no";
   message: string;
   file: any;
