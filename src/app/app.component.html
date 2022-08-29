@@ -1,35 +1,67 @@
 <mat-toolbar class="top-banner" id="top-banner" color="primary">
   <button mat-button routerLink=".">
-    <span class="mat-headline">{{title}}</span>
+    <span class="mat-headline">{{ title }}</span>
   </button>
   <span class="fill-remaining-space"></span>
   <div *ngIf="!this.authService.isLoggedIn">
-    <a mat-button [routerLink]="['tools']"><span class="mat-title">Tools</span></a>
+    <a mat-button [routerLink]="['tools']">
+      <span class="mat-title">Tools</span>
+    </a>
   </div>
   <div *ngIf="this.authService.isLoggedIn">
-    <a mat-button [routerLink]="['member']"><span class="mat-title">Member Tools</span></a>
+    <a mat-button [routerLink]="['member']">
+      <span class="mat-title">Member Tools</span>
+    </a>
   </div>
   <a mat-button routerLink="links"><span class="mat-title">Links</span></a>
-  <button mat-button [matMenuTriggerFor]="menu"><span class="mat-title">{{authService.displayName}}</span>
+  <button mat-button [matMenuTriggerFor]="menu">
+    <span class="mat-title">{{ authService.displayName }}</span>
     <mat-icon>arrow_drop_down</mat-icon>
   </button>
   <mat-menu #menu="matMenu" [overlapTrigger]="false">
-    <button mat-menu-item [disabled]="this.authService.isLoggedIn" (click)="openDialog()">login</button>
-    <button mat-menu-item [disabled]="!this.authService.isLoggedIn" (click)="doLogout()">logout</button>
-    <a mat-menu-item [disabled]="this.authService.isLoggedIn" routerLink="register">register</a>
+    <button
+      mat-menu-item
+      [disabled]="this.authService.isLoggedIn"
+      (click)="openDialog()"
+    >
+      login
+    </button>
+    <button
+      mat-menu-item
+      [disabled]="!this.authService.isLoggedIn"
+      (click)="doLogout()"
+    >
+      logout
+    </button>
+    <a
+      mat-menu-item
+      [disabled]="this.authService.isLoggedIn"
+      routerLink="register"
+    >
+      register
+    </a>
   </mat-menu>
   <a mat-button routerLink="help"><span class="mat-title">Help</span></a>
 </mat-toolbar>
 <section class="mat-typography">
   <router-outlet></router-outlet>
 </section>
-<br>&nbsp;<br>&nbsp;<br>&nbsp;<br>
+<br />
+&nbsp;
+<br />
+&nbsp;
+<br />
+&nbsp;
+<br />
 <mat-toolbar class="bottom-banner" [style.width]="getWidth()" color="primary">
-  <span>&copy; 2019 {{author}}</span>
+  <span>&copy; 2020 {{ author }}</span>
   <span class="fill-remaining-space"></span>
   <span>Your Source for Cyber Security</span>
   <span class="fill-remaining-space"></span>
-  <a mat-button routerLink=".">   
-    <span class="mat-title">{{server}} <span class="mat-caption">(v0.9.1)</span></span>
-  </a> 
+  <a mat-button routerLink=".">
+    <span class="mat-title">
+      {{ server }}
+      <span class="mat-caption">(v0.9.1)</span>
+    </span>
+  </a>
 </mat-toolbar>
