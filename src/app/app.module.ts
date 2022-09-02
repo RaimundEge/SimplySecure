@@ -13,6 +13,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatCardModule } from '@angular/material/card';
 import { MatSelectModule } from '@angular/material/select';
@@ -66,7 +67,7 @@ const routes: Routes = [
     RouterModule.forRoot(routes, { useHash: true }),
     BrowserAnimationsModule,
     MatDialogModule, MatToolbarModule, MatMenuModule, MatIconModule, MatGridListModule, MatProgressSpinnerModule, 
-    MatFormFieldModule, MatTabsModule, MatCardModule, MatSelectModule, MatButtonModule, MatRadioModule, MatListModule,
+    MatFormFieldModule, MatInputModule, MatTabsModule, MatCardModule, MatSelectModule, MatButtonModule, MatRadioModule, MatListModule,
     MatDividerModule,
     HttpClientModule    
   ],

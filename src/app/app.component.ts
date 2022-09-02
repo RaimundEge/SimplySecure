@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
+import { LoginComponent } from './login/login.component';
 import { AuthService } from './providers/auth.service';
 import { RestURL } from './app.config';
 
@@ -39,12 +40,12 @@ export class AppComponent {
   }
 
   openDialog() {
-    // let dialogRef = this.dialog.open(LoginComponent);
+    let dialogRef = this.dialog.open(LoginComponent);
   }
 
   doLogout() {
-    // this.authService.logout();
-    // this.router.navigate(['home']);
+    this.authService.logout();
+    this.router.navigate(['home']);
   }
 
 }

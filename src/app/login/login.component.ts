@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -13,16 +13,19 @@ import { AuthService } from '../providers/auth.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  loginForm: FormGroup;
+  loginForm = new FormGroup({
+    userName: new FormControl(''),
+    password: new FormControl(''),
+  });
   message: string = '';
   mode: string = "no";
 
   constructor(public dialogRef: MatDialogRef<LoginComponent>, fb: FormBuilder, public http: HttpClient, public authService: AuthService, public router: Router) {
     // For our form, we’ll just have two fields and we’ll require both of them to be filled out before the form can be submitted
-    this.loginForm = fb.group({
-      'userName': [null, Validators.required],
-      'password': [null, Validators.required],
-    })
+    // this.loginForm = fb.group({
+    //   'userName': [null, Validators.required],
+    //   'password': [null, Validators.required],
+    // })
   }
 
   submitForm() {
