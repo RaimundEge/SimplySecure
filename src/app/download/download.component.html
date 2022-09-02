@@ -1,0 +1,19 @@
+<h1 mat-dialog-title>Simple File Encryption Service: Result</h1>
+<mat-dialog-content>
+    Your file ({{data.size}} bytes) has been {{data.status}}.<br>
+    Now select what to do with the file.
+    <br><br>
+    <fieldset>
+        <legend>Select File Disposition</legend>
+        <div class="form-group">
+            Download: 
+            <button md-input md-dialog-close>
+                <a href="{{data.URL}}">{{data.name}}</a>
+            </button>
+        </div>
+    </fieldset>
+    Make sure to keep the associated password safe !
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button matButtonRaised mat-dialog-close>Close</button>
+ </mat-dialog-actions>

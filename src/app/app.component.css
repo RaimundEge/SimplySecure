@@ -1,0 +1,82 @@
+.fill-remaining-space {
+  flex: 1 1 auto;
+}
+#dimLogo { 
+    background: url(../assets/logo.png) no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    z-index: -1;
+    position:absolute;
+    left:5%;
+    top:5%;
+    width:90%;
+    height:90%;
+    filter:alpha(Opacity=15);
+    opacity:0.15;
+}
+.top-banner {   
+    border-radius:0 0 5px 5px;
+}
+.bottom-banner {    
+    border-radius:5px 5px 0 0;
+    position: fixed;
+    bottom: 0; 
+    z-index: 2;
+}
+
+body {
+    margin: 0 auto;
+    max-width: 1024px;
+}
+fieldset {
+    border-radius: 5px; 
+    margin: 8px 8px; 
+}
+table {
+    width: 100%;
+ }
+ 
+.main {
+    margin: 5px;
+}
+a {
+    font-size: 120%;
+}
+.progress {
+    position: fixed;
+    z-index: 999;
+    height: 2em;
+    width: 2em;
+    overflow: show;
+    margin: auto;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+    
+/* Transparent Overlay */
+.progress:before {
+    content: '';
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.3);
+}  
+#captchablock {
+    display: inline-flex;
+    overflow: hidden;
+}
+.g-recaptcha {
+    display: inline-block;
+    margin: 2px 0 4px 40px;
+}
+.showCase {
+    width: 100%;
+    height: 800px;
+}

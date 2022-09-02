@@ -1,0 +1,18 @@
+<fieldset class="mat-elevation-z8">
+  <legend>We store the following files for you:</legend>
+
+  <mat-nav-list class="mat-elevation-z8">
+    <mat-list-item *ngIf="authService.files.length == 0">
+      nothing available
+    </mat-list-item>
+    <mat-list-item *ngFor="let file of authService.files">
+       <div matLine>{{ file.name }} &nbsp;({{ file.lastModified }})</div>
+       <a href="{{getDownloadLink(file)}}">
+          <mat-icon>get_app</mat-icon>
+       </a>
+       <button mat-icon-button (click)="deleteFile(file)">
+          <mat-icon>delete</mat-icon>
+       </button>
+    </mat-list-item>
+  </mat-nav-list>
+</fieldset>

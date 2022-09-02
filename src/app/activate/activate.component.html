@@ -1,0 +1,15 @@
+<div class="main">
+    <h2>Membership Activation</h2>
+    <form [formGroup]="actForm" (ngSubmit)="doActivate(actForm.controls['code'].value)">
+        <fieldset>
+            <legend>
+                Please enter your activation code:
+            </legend>
+            <mat-form-field>
+                <input matInput class="form-control" type="text" formControlName='code' required placeholder="code from email"
+                />
+            </mat-form-field>
+            <strong>{{message}}</strong>
+        </fieldset>
+    </form>
+</div>
