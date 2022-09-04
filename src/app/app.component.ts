@@ -20,15 +20,6 @@ export class AppComponent {
   server = "secure.ege.com";
   author = "Ege Consulting Inc.";
 
-  getWidth() {
-    var top = document.getElementById('top-banner');
-    if (top) {
-      return top.clientWidth + "px";
-    } else {
-      return "800px";
-    }
-  }
-
   constructor(public dialog: MatDialog, public authService: AuthService, public router: Router, public http: HttpClient) {  
     console.log('AppComponent constructor')
     // send activation request to REST server

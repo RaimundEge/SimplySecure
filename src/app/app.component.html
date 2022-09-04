@@ -13,7 +13,6 @@
       <span class="mat-title">Member Tools</span>
     </a>
   </div>
-  <mat-grid-list cols="2" gutterSize="80px" rowHeight="3:2"></mat-grid-list>
   <a mat-button routerLink="links"><span class="mat-title">Links</span></a>
   <button mat-button [matMenuTriggerFor]="menu">
     <span class="mat-title">{{ authService.displayName }}</span>
@@ -47,14 +46,7 @@
 <section class="mat-typography">
   <router-outlet></router-outlet>
 </section>
-<br />
-&nbsp;
-<br />
-&nbsp;
-<br />
-&nbsp;
-<br />
-<mat-toolbar class="bottom-banner" [style.width]="getWidth()" color="primary">
+<mat-toolbar class="bottom-banner" color="primary">
   <span>&copy; 2022 {{ author }}</span>
   <span class="fill-remaining-space"></span>
   <span>Your Source for Cyber Security</span>

@@ -4,10 +4,11 @@ html, body { height: 100%; }
 body {
     margin: 0 auto;
     font-family: Roboto, "Helvetica Neue", sans-serif;
-    max-width: 1024px;
+    max-width: 900px;
 }
 .main {
     margin: 5px;
+    padding-top: 80px;
 }
 .showCase {
     width: 100%;

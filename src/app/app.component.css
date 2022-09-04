@@ -1,18 +1,17 @@
 .fill-remaining-space {
   flex: 1 1 auto;
 }
-
 .top-banner {   
     border-radius:0 0 5px 5px;
+    position: fixed;
+    top: 0;
+    z-index: 2;
+    max-width: 900px;
 }
 .bottom-banner {    
-    border-radius:5px 5px 0 0;
+    border-radius:5px 5px 0 0;   
     position: fixed;
-    bottom: 0; 
+    bottom: 0;    
     z-index: 2;
+    max-width: 900px;
 }
-
-
-
-
-
