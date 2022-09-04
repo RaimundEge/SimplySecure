@@ -1,0 +1,8 @@
+#captchablock {
+    display: inline-flex;
+    overflow: hidden;
+}
+.g-recaptcha {
+    display: inline-block;
+    margin: 2px 0 4px 40px;
+}
