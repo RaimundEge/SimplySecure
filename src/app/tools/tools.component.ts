@@ -54,14 +54,13 @@ export class ToolsComponent implements OnInit, OnDestroy {
 
   basicCrypt(op: string) {
     console.log('basicCrypt: ' + op);
-    // console.log('processing file: ' + this.file.name + ' - ' + this.file.size + ' bytes');
-    let formData: FormData = new FormData();
+    console.log('processing file: ' + this.file.name + ' - ' + this.file.size + ' bytes');
+    const formData = new FormData();
     formData.append('op', op);
     formData.append('pwd', this.toolForm.controls['pwd1'].value);
     formData.append('file', this.file, this.file.name);
     const httpOptions = { headers: new HttpHeaders({ 'Accept': 'application/json' })};
     // show progress spinner
-    this.mode = "show";
     this.http.post(SecureURL + '/crypt', formData, httpOptions)
       .subscribe((data: any) => {
         // turn off progress spinner
@@ -69,12 +68,14 @@ export class ToolsComponent implements OnInit, OnDestroy {
         console.log('response received: ');
         console.log(data);
         this.openDialog(data);
-      },
-      error => {
-        this.mode = "no";
-        this.message = op + "ion failed: try again later"
-        console.log(error);
-      })
+      }
+      // ,
+      // error => {
+      //   this.mode = "no";
+      //   this.message = op + "ion failed: try again later"
+      //   console.log(error);
+      // }
+      )
   }
 
   openDialog(map: Object) {
