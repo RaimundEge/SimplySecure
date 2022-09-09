@@ -39,8 +39,8 @@ export class LoginComponent {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Accept': 'application/json' }) };
     var body = { "userName": this.loginForm.controls['userName'].value, "password": this.loginForm.controls['password'].value };
 
-    this.http.post(SecureURL + '/login', body, httpOptions).subscribe(
-      (data: any) => {
+    const l = this.http.post(SecureURL + '/login', body, httpOptions).subscribe({
+      next: (data: any) => {
         // turn off progress spinner
         this.mode = "no";
         console.log('member lookup returned:' + JSON.stringify(data));
@@ -52,13 +52,15 @@ export class LoginComponent {
           this.message = data.status;
         }
       },
-      (err) => {
-        console.log(err);
+      error: (msg) => {
+        console.log(msg);
         // turn off progress spinner
         this.mode = "no";
         this.message = "Service unavailable, try again later";
-      }
-    )
+      },
+      complete: () => {
+        console.log('login post done')
+      },
+    });
   }
-
 }

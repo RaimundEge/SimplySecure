@@ -35,17 +35,19 @@ export class SelectComponent implements OnInit {
       // show progress
       this.message = "uploading ...";
       this.http.post(SecureURL + '/upload', formData, httpOptions)
-        .subscribe((data: any) => {
-          // turn off progress spinner
-          this.message = data.status;
-          this.request.uploadComplete = true;
-          this.authService.refreshFiles();
-        },
-          error => {
+        .subscribe({
+          next: (data: any) => {
+            // turn off progress spinner
+            this.message = data.status;
+            this.request.uploadComplete = true;
+            this.authService.refreshFiles();
+          },
+          error: (msg) => {
             this.message = "upload failed: try again later";
             this.request.uploadComplete = false;
-            console.log(error);
-          })
+            console.log(msg);
+          }
+        })
     }
   }
 }

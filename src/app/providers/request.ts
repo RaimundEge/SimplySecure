@@ -14,6 +14,6 @@ export class Request {
   fileName: string = '';
   processedAs: string = '';
   status: string = '';
-  uploadComplete: boolean = false;
-  keyId: number = 0;
+  uploadComplete: boolean = true;
+  keyId: number | null = null;
 }

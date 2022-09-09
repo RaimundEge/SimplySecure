@@ -26,12 +26,15 @@ export class FilesComponent implements OnInit {
   deleteFile(file: any) {
     console.log("deleteFile: " + JSON.stringify(file));
     var fileName = encodeURIComponent(file.name);
-    this.http.get(SecureURL + "/delete/" + file.dir + "/" + this.authService.userId + "/" + fileName).subscribe(
-      data => { 
+    this.http.get(SecureURL + "/delete/" + file.dir + "/" + this.authService.userId + "/" + fileName).subscribe({
+      next: data => {
         console.log("delete returned: " + JSON.stringify(data));
         this.authService.refreshFiles();
+      },
+      error: (msg) => {
+        console.log(msg)
       }
-    );
+    });
   }
 
 }

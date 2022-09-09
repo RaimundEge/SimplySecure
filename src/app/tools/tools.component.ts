@@ -59,23 +59,23 @@ export class ToolsComponent implements OnInit, OnDestroy {
     formData.append('op', op);
     formData.append('pwd', this.toolForm.controls['pwd1'].value);
     formData.append('file', this.file, this.file.name);
-    const httpOptions = { headers: new HttpHeaders({ 'Accept': 'application/json' })};
+    const httpOptions = { headers: new HttpHeaders({ 'Accept': 'application/json' }) };
     // show progress spinner
     this.http.post(SecureURL + '/crypt', formData, httpOptions)
-      .subscribe((data: any) => {
-        // turn off progress spinner
-        this.mode = "no";
-        console.log('response received: ');
-        console.log(data);
-        this.openDialog(data);
-      }
-      // ,
-      // error => {
-      //   this.mode = "no";
-      //   this.message = op + "ion failed: try again later"
-      //   console.log(error);
-      // }
-      )
+      .subscribe({
+        next: (data: any) => {
+          // turn off progress spinner
+          this.mode = "no";
+          console.log('response received: ');
+          console.log(data);
+          this.openDialog(data);
+        },
+        error: (msg) => {
+          this.mode = "no";
+          this.message = op + "ion failed: try again later"
+          console.log(msg);
+        }
+      })
   }
 
   openDialog(map: Object) {

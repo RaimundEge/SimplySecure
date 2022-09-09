@@ -29,11 +29,11 @@ export class AesComponent implements OnInit {
     this.request.keySizeString = "128";
     this.request.ivSize = 128; // DES block size
     this.request.mode = "ECB";
-    this.request.keyStyle = "password"; 
+    this.request.keyStyle = "password";
     // console.log("AesComponent ngOnInit, request: " + JSON.stringify(this.request));
   }
 
-  onSubmit() {    
+  onSubmit() {
     this.request.keySize = +this.request.keySizeString;
     this.request.ivSize = 128; // AES block size
     if (this.gotKey()) {
@@ -43,8 +43,8 @@ export class AesComponent implements OnInit {
 
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Accept': 'application/json' }) };
     this.spinner = "show";
-    this.http.post(SecureURL + '/process', this.request, httpOptions).subscribe(
-      (data: any) => {
+    this.http.post(SecureURL + '/process', this.request, httpOptions).subscribe({
+      next: (data: any) => {
         console.log('process returned:');
         console.log(data);
         this.spinner = "no";
@@ -52,13 +52,16 @@ export class AesComponent implements OnInit {
         this.authService.refreshFiles();
         this.authService.refreshKeys();
         this.openDialog(data);
+      },
+      error: (msg) => {
+        console.log(msg)
       }
-    );
+    });
   }
 
   checkFile() {
-   // console.log("checkFile: " + JSON.stringify(this.request))
-   // console.log("file name: " + this.request.fileName + ", uploaded: " + this.request.uploadComplete);
+    //  console.log("checkFile: " + JSON.stringify(this.request))
+    //  console.log("file name: " + this.request.fileName + ", uploaded: " + this.request.uploadComplete);
     if (this.request.uploadComplete == false)
       return false;
     else
@@ -73,6 +76,7 @@ export class AesComponent implements OnInit {
   }
 
   gotKey() {
+    // console.log('Selected Key: ' + this.authService.selectedKey)
     if (this.authService.selectedKey !== null) {
       for (var key of this.authService.keys) {
         if (key.id == this.authService.selectedKey)

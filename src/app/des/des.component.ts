@@ -13,7 +13,7 @@ import { DownloadComponent } from '../download/download.component';
   styleUrls: ['./des.component.css']
 })
 export class DesComponent implements OnInit {
- // toolForm: FormGroup;
+  // toolForm: FormGroup;
   request: Request;
   spinner = "no";
   message: string = '';
@@ -48,8 +48,8 @@ export class DesComponent implements OnInit {
 
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Accept': 'application/json' }) };
     this.spinner = "show";
-    this.http.post(SecureURL + '/process', this.request, httpOptions).subscribe(
-      (data: any) => {
+    this.http.post(SecureURL + '/process', this.request, httpOptions).subscribe({
+      next: (data: any) => {
         console.log('process returned:');
         console.log(data);
         this.spinner = "no";
@@ -57,13 +57,16 @@ export class DesComponent implements OnInit {
         this.authService.refreshFiles();
         this.authService.refreshKeys();
         this.openDialog(data);
+      },
+      error: (msg) => {
+        console.log(msg)
       }
-    );
+    });
   }
 
   checkFile() {
-   // console.log("checkFile: " + JSON.stringify(this.request))
-   // console.log("file name: " + this.request.fileName + ", uploaded: " + this.request.uploadComplete);
+    // console.log("checkFile: " + JSON.stringify(this.request))
+    // console.log("file name: " + this.request.fileName + ", uploaded: " + this.request.uploadComplete);
     if (this.request.uploadComplete == false)
       return false;
     else
@@ -73,7 +76,7 @@ export class DesComponent implements OnInit {
   openDialog(map: Object) {
     let dialogRef = this.dialog.open(DownloadComponent, { data: map });
     dialogRef.afterClosed().subscribe(result => {
-    //  console.log('dialog closed: ' + result);
+      //  console.log('dialog closed: ' + result);
     });
   }
 
@@ -81,7 +84,7 @@ export class DesComponent implements OnInit {
     if (this.authService.selectedKey !== null) {
       for (var key of this.authService.keys) {
         if (key.id == this.authService.selectedKey)
-          if (key.algorithm == "DES"|| key.algorithm == "DESede")
+          if (key.algorithm == "DES" || key.algorithm == "DESede")
             return true;
       }
     }
