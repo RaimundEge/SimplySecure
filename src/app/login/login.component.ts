@@ -43,7 +43,7 @@ export class LoginComponent {
       next: (data: any) => {
         // turn off progress spinner
         this.mode = "no";
-        console.log('member lookup returned:' + JSON.stringify(data));
+        // console.log('member lookup returned:' + JSON.stringify(data));
         if (data.status === 'User OK') {
           this.authService.login(data);
           this.dialogRef.close();
@@ -57,9 +57,6 @@ export class LoginComponent {
         // turn off progress spinner
         this.mode = "no";
         this.message = "Service unavailable, try again later";
-      },
-      complete: () => {
-        console.log('login post done')
       },
     });
   }

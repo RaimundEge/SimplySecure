@@ -28,7 +28,7 @@ export class FilesComponent implements OnInit {
     var fileName = encodeURIComponent(file.name);
     this.http.get(SecureURL + "/delete/" + file.dir + "/" + this.authService.userId + "/" + fileName).subscribe({
       next: data => {
-        console.log("delete returned: " + JSON.stringify(data));
+        // console.log("delete returned: " + JSON.stringify(data));
         this.authService.refreshFiles();
       },
       error: (msg) => {
