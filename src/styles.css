@@ -48,3 +48,6 @@ a {
     height: 100%;
     background-color: rgba(0,0,0,0.3);
 }  
+.grecaptcha-badge {
+    bottom: 70px !important;
+}

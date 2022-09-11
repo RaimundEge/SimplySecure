@@ -42,6 +42,9 @@ import { ParamsComponent } from './params/params.component';
 import { SelectComponent } from './select/select.component';
 import { FilepopupComponent } from './filepopup/filepopup.component';
 
+import { RECAPTCHA_V3_SITE_KEY, RecaptchaV3Module } from 'ng-recaptcha';
+import { environment } from '../environments/environment';
+
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
@@ -50,13 +53,13 @@ const routes: Routes = [
   { path: 'member', component: MemberComponent },
   { path: 'help', component: HelpComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'activate', component: ActivateComponent },   
+  { path: 'activate', component: ActivateComponent },
   { path: 'activate/:code', component: ActivateComponent }
 ];
 
 @NgModule({
   declarations: [
-    AppComponent, HomeComponent, LinksComponent, ToolsComponent, 
+    AppComponent, HomeComponent, LinksComponent, ToolsComponent,
     MemberComponent, RegisterComponent, LoginComponent, DownloadComponent,
     HelpComponent, ActivateComponent, AesComponent, DesComponent,
     CryptComponent, FilesComponent, KeysComponent, ParamsComponent,
@@ -66,12 +69,18 @@ const routes: Routes = [
     BrowserModule, FormsModule, ReactiveFormsModule, FlexLayoutModule,
     RouterModule.forRoot(routes, { useHash: true }),
     BrowserAnimationsModule,
-    MatDialogModule, MatToolbarModule, MatMenuModule, MatIconModule, MatGridListModule, MatProgressSpinnerModule, 
+    MatDialogModule, MatToolbarModule, MatMenuModule, MatIconModule, MatGridListModule, MatProgressSpinnerModule,
     MatFormFieldModule, MatInputModule, MatTabsModule, MatCardModule, MatSelectModule, MatButtonModule, MatRadioModule, MatListModule,
     MatDividerModule,
-    HttpClientModule    
+    HttpClientModule, RecaptchaV3Module,
   ],
-  providers: [AuthService],
+  providers: [
+    AuthService,
+    {
+      provide: RECAPTCHA_V3_SITE_KEY,
+      useValue: environment.recaptcha.siteKey,
+    },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

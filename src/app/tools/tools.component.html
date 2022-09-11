@@ -45,14 +45,7 @@
                       at least one upper and lower case letter and number.<br>
                       You will need this password to decrypt your encrypted file.
                   </div>
-              </div>              
-                  
-              <div fxLayout="row" id="captchablock">
-                  <div fxFlex="90" fxLayoutAlign="end" fxFlexOffset="20px">
-                      <div id="cap_field" class="g-recaptcha" data-sitekey="6LfvWRITAAAAAEmFGWlzR7KlscELebFIr5p2uEoZ"></div>
-                  </div>
-              </div>
-              
+              </div>                           
               <div fxLayout="row" fxLayoutGap="20px">
                   <button matButtonRaised (click)="basicCrypt('Encrypt')" [disabled]="!toolForm.valid || !file">Encrypt</button>
                   <span>or</span>

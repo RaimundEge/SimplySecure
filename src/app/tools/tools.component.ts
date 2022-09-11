@@ -1,8 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { Component } from '@angular/core';
+import { FormGroup, FormControl, NgForm } from '@angular/forms';
+import { ReCaptchaV3Service } from 'ng-recaptcha';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { DownloadComponent } from '../download/download.component';
 import { SecureURL } from '../app.config';
 
@@ -11,14 +11,14 @@ import { SecureURL } from '../app.config';
   templateUrl: './tools.component.html',
   styleUrls: ['./tools.component.css']
 })
-export class ToolsComponent implements OnInit, OnDestroy {
+export class ToolsComponent {
   toolForm: FormGroup;
   user: string = 'Members';
   file: File | any = null;
   mode: string = "no"
   message = "Make sure to record your password !";
 
-  constructor(public http: HttpClient, public dialog: MatDialog) {
+  constructor(private recaptchaV3Service: ReCaptchaV3Service, public http: HttpClient, public dialog: MatDialog) {
     // console.log('ToolsComponent constructor');
     this.toolForm = new FormGroup({
       'fileField': new FormControl(''),
@@ -27,10 +27,11 @@ export class ToolsComponent implements OnInit, OnDestroy {
     })
   }
 
-  ngOnInit() {
-  }
-
-  ngOnDestroy() {
+  public send(): void {
+    this.recaptchaV3Service.execute('importantAction')
+      .subscribe((token: string) => {
+        console.log(`Token [${token}] generated`);
+      });
   }
 
   setFile(event: any) {
@@ -51,7 +52,6 @@ export class ToolsComponent implements OnInit, OnDestroy {
     }
   }
 
-
   basicCrypt(op: string) {
     console.log('basicCrypt: ' + op);
     console.log('processing file: ' + this.file.name + ' - ' + this.file.size + ' bytes');
@@ -60,22 +60,27 @@ export class ToolsComponent implements OnInit, OnDestroy {
     formData.append('pwd', this.toolForm.controls['pwd1'].value);
     formData.append('file', this.file, this.file.name);
     const httpOptions = { headers: new HttpHeaders({ 'Accept': 'application/json' }) };
-    // show progress spinner
-    this.http.post(SecureURL + '/crypt', formData, httpOptions)
-      .subscribe({
-        next: (data: any) => {
-          // turn off progress spinner
-          this.mode = "no";
-          console.log('response received: ');
-          console.log(data);
-          this.openDialog(data);
-        },
-        error: (msg) => {
-          this.mode = "no";
-          this.message = op + "ion failed: try again later"
-          console.log(msg);
-        }
-      })
+    this.recaptchaV3Service.execute('basicCrypt')
+      .subscribe((token: string) => {
+        console.log(`Token [${token}] generated`);
+        formData.append('token', token);
+        // show progress spinner
+        this.http.post(SecureURL + '/crypt', formData, httpOptions)
+          .subscribe({
+            next: (data: any) => {
+              // turn off progress spinner
+              this.mode = "no";
+              console.log('response received: ');
+              console.log(data);
+              this.openDialog(data);
+            },
+            error: (msg) => {
+              this.mode = "no";
+              this.message = op + "ion failed: try again later"
+              console.log(msg);
+            }
+          })
+      });
   }
 
   openDialog(map: Object) {
