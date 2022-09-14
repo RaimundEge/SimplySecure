@@ -1,30 +1,40 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
+html,
+body {
+    height: 100%;
+}
+
 body {
     margin: 0 auto;
     font-family: Roboto, "Helvetica Neue", sans-serif;
     max-width: 900px;
 }
+
 .main {
     margin: 5px;
     padding-top: 70px;
     padding-bottom: 70px;
 }
+
 .showCase {
     width: 100%;
-    height: 800px;
+    height: 80vh;
 }
+
 fieldset {
-    border-radius: 5px; 
-    margin: 8px 8px; 
+    border-radius: 5px;
+    margin: 8px 8px;
 }
+
 table {
     width: 100%;
 }
+
 a {
     font-size: 120%;
 }
+
 .progress {
     position: fixed;
     z-index: 999;
@@ -36,7 +46,8 @@ a {
     left: 0;
     bottom: 0;
     right: 0;
-}  
+}
+
 /* Transparent Overlay */
 .progress:before {
     content: '';
@@ -46,8 +57,42 @@ a {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0,0,0,0.3);
-}  
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
 .grecaptcha-badge {
     bottom: 70px !important;
+}
+@media (max-width: 1000px) {
+    .mat-typography {
+        font-size: 13px;
+    }
+    .mat-headline {
+        font-size: 22px;
+    }
+    .mat-title, .mat-toolbar {
+        font-size: 18px;
+    }
+}
+@media (max-width: 800px) {
+    .mat-typography {
+        font-size: 12px;
+    }
+    .mat-headline {
+        font-size: 20px;
+    }
+    .mat-title, .mat-toolbar {
+        font-size: 16px;
+    }
+}
+@media (max-width: 600px) {
+    .mat-typography {
+        font-size: 11px;
+    }
+    .mat-headline {
+        font-size: 18px;
+    }
+    .mat-title, .mat-toolbar {
+        font-size: 14px;
+    }
 }
