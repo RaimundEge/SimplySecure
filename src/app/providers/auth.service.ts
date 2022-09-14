@@ -8,13 +8,18 @@ interface UserType {
   userName: String;
   email: String;
 };
+interface FileType {
+  dir: String;
+  date: String;
+  name: String;
+};
 interface KeyType {
   id: number;
   algorithm: string;
   length: number;
   keySize: number;
   mode: string;
-  files: File[];
+  files: FileType[];
 }
 
 @Injectable()
@@ -24,7 +29,7 @@ export class AuthService {
   userId: number = -1;
   displayName: String = "Member";
   email: String = "";
-  files: File[] = [];
+  files : FileType[] = [];
   keys: KeyType[] = [];
   selectedKey: any = null;
 

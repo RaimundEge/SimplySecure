@@ -1,6 +1,6 @@
 {
-  "name": "sim-sec-ng14",
-  "version": "0.0.0",
+  "name": "secure.ege.com",
+  "version": "0.2.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -28,7 +28,7 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^14.2.1",
-    "@angular/cli": "~14.2.1",
+    "@angular/cli": "~14.2.2",
     "@angular/compiler-cli": "^14.0.0",
     "@types/jasmine": "~4.0.0",
     "jasmine-core": "~4.3.0",

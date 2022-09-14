@@ -10,12 +10,9 @@ import { AuthService } from '../providers/auth.service';
   templateUrl: './files.component.html',
   styleUrls: ['./files.component.css']
 })
-export class FilesComponent implements OnInit {
+export class FilesComponent {
 
   constructor(public http: HttpClient, public authService: AuthService) { }
-
-  ngOnInit() {
-  }
 
   getDownloadLink(file: any) {
     //  console.log("getDownloadLink: " + JSON.stringify(file));
