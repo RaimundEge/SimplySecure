@@ -13,3 +13,12 @@
     filter:alpha(Opacity=15);
     opacity:0.15;
 }
+.card {
+    width: 45%;
+    height: 45%;
+    padding: 2em;
+}
+.card-header, .card-bottom {
+    font-size: 120%;
+    font-weight: 500;
+}

@@ -11,4 +11,8 @@
     bottom: 0;    
     z-index: 2;
     max-width: 900px;
+    line-height: 19px;
+}
+.bottom-white {
+    color: white;
 }
